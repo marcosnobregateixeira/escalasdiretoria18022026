@@ -57,6 +57,7 @@ export interface BankTransaction {
   description: string; // Motivo (ex: Serviço Extra, Doação Sangue, Gozo de Folga)
   amount: number; // Quantidade de dias (geralmente 1)
   recordedAt: string; // Data do registro no sistema
+  relatedTransactionId?: string; // ID da transação de crédito relacionada (para baixas)
 }
 
 export interface Soldier {
@@ -115,6 +116,7 @@ export interface Shift {
 export interface RosterRow {
   id: string;
   label: string;
+  hidePhone?: boolean;
 }
 
 export interface RosterSection {
@@ -140,6 +142,8 @@ export interface Roster {
   isPublished: boolean;
   sections?: RosterSection[];
   customHeaders?: string[]; // Para renomear colunas na escala extra
+  hideWeekends?: boolean; // Ocultar sábados e domingos
+  mergeWeekendRows?: boolean; // Mesclar linhas nos finais de semana
 }
 
 export interface AppSettings {
@@ -156,11 +160,15 @@ export interface AppSettings {
   showLogoLeft: boolean;
   showLogoRight: boolean;
   rosterCategories: RosterCategory[];
+  teamMappings?: TeamMapping[];
 }
 
-export type UserRole = 'ADMIN' | 'USER';
+export interface TeamMapping {
+  teamName: string;
+  shiftName: string;
+}
 
 export interface User {
   username: string;
-  role: UserRole;
+  role: 'ADMIN' | 'USER';
 }
